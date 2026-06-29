@@ -3,7 +3,7 @@
 // ============================================
 
 // مفتاح الـ API الخاص بك المدمج بالطلب
-const API_KEY = "AQ.Ab8RN6LzVIQT2MMqko0spyCBJKuG263OZ1k3zvoDJ-z6O2-h8Q";
+const API_KEY = "AQ.Ab8RN6KvAyInT-2WFITHje82GBACJc65ba41R6F3Zmrd2JH1Ww";
 
 // ============================================
 // 🛠️ دوال مساعدة
