@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BrainMed+ | لوحة التحكم</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div class="sidebar">
+      <div class="sidebar-logo">
+        <i class="fas fa-brain" style="color: #4fc3f7"></i>
+        <span>Brain<span style="color: #4fc3f7">Med</span>+</span>
+      </div>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="dashboard.html" class="active"
+            ><i class="fas fa-chart-pie"></i> <span>نظرة عامة</span></a
+          >
+        </li>
+        <li>
+          <a href="upload.html"
+            ><i class="fas fa-upload"></i> <span>تحليل جديد</span></a
+          >
+        </li>
+        <li>
+          <a href="history.html"
+            ><i class="fas fa-history"></i> <span>سجل التحليلات</span></a
+          >
+        </li>
+        <li>
+          <a href="reports.html"
+            ><i class="fas fa-file-alt"></i> <span>التقارير</span></a
+          >
+        </li>
+        <li>
+          <a href="login.html" class="logout"
+            ><i class="fas fa-sign-out-alt"></i> <span>تسجيل الخروج</span></a
+          >
+        </li>
+      </ul>
+    </div>
+
+    <div class="main-content">
+      <div class="top-bar">
+        <h1>📊 نظرة عامة</h1>
+        <div class="top-bar-right">
+          <span class="date-display" id="currentDate"></span>
+          <div class="user-profile">
+            <i
+              class="fas fa-user-circle"
+              style="font-size: 28px; color: #4fc3f7"
+            ></i>
+            <span id="userNameDisplay">الدكتور</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <div class="card frequency-card">
+          <h3><i class="fas fa-wave-square"></i> ترددات الموجات</h3>
+          <div class="frequency-grid">
+            <div class="freq-item">
+              <span class="freq-label">GAMMA</span
+              ><span class="freq-value" id="freqGamma">-</span
+              ><span class="freq-unit">Hz</span>
+              <div class="freq-bar">
+                <div
+                  class="freq-bar-fill"
+                  id="barGamma"
+                  style="width: 0%; background: #7c4dff"
+                ></div>
+              </div>
+            </div>
+            <div class="freq-item">
+              <span class="freq-label">BETA</span
+              ><span class="freq-value" id="freqBeta">-</span
+              ><span class="freq-unit">Hz</span>
+              <div class="freq-bar">
+                <div
+                  class="freq-bar-fill"
+                  id="barBeta"
+                  style="width: 0%; background: #448aff"
+                ></div>
+              </div>
+            </div>
+            <div class="freq-item">
+              <span class="freq-label">ALPHA</span
+              ><span class="freq-value" id="freqAlpha">-</span
+              ><span class="freq-unit">Hz</span>
+              <div class="freq-bar">
+                <div
+                  class="freq-bar-fill"
+                  id="barAlpha"
+                  style="width: 0%; background: #4caf50"
+                ></div>
+              </div>
+            </div>
+            <div class="freq-item">
+              <span class="freq-label">THETA</span
+              ><span class="freq-value" id="freqTheta">-</span
+              ><span class="freq-unit">Hz</span>
+              <div class="freq-bar">
+                <div
+                  class="freq-bar-fill"
+                  id="barTheta"
+                  style="width: 0%; background: #ff9800"
+                ></div>
+              </div>
+            </div>
+            <div class="freq-item">
+              <span class="freq-label">DELTA</span
+              ><span class="freq-value" id="freqDelta">-</span
+              ><span class="freq-unit">Hz</span>
+              <div class="freq-bar">
+                <div
+                  class="freq-bar-fill"
+                  id="barDelta"
+                  style="width: 0%; background: #f44336"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card activity-card">
+          <h3><i class="fas fa-bolt"></i> النشاط والإنتاجية</h3>
+          <div class="activity-stats">
+            <div class="stat-row">
+              <span>اليوم</span
+              ><span class="stat-highlight" id="todayActivity">-</span>
+            </div>
+            <div class="stat-row">
+              <span>المتوسط</span><span id="avgActivity">-</span>
+            </div>
+          </div>
+          <canvas id="activityChart" height="60"></canvas>
+        </div>
+
+        <div class="card focus-card">
+          <h3><i class="fas fa-bullseye"></i> التركيز</h3>
+          <div class="focus-display">
+            <div class="focus-circle">
+              <span class="focus-value" id="focusValue">-</span
+              ><span class="focus-unit">Hz</span>
+            </div>
+            <div class="focus-info">
+              <span class="focus-label" id="focusLabel">GAMMA</span
+              ><span class="focus-range" id="focusRange">المدى: -</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card status-card">
+          <h3><i class="fas fa-heartbeat"></i> حالة المخ</h3>
+          <div class="status-display" id="brainStatus">
+            <i
+              class="fas fa-spinner fa-spin"
+              style="color: #4fc3f7; font-size: 32px"
+            ></i>
+            <span style="font-size: 20px; font-weight: bold; color: #4fc3f7"
+              >انتظر التحليل</span
+            >
+            <span style="color: #666; font-size: 14px">ارفع صورة رسم المخ</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card full-width" style="margin-top: 20px">
+        <h3><i class="fas fa-chart-line"></i> رسم الموجات</h3>
+        <canvas id="eegWaveChart" height="100"></canvas>
+      </div>
+
+      <!-- ✅ تم حذف قسم تحليل Gemini AI بالكامل -->
+
+      <div class="card full-width" style="margin-top: 20px">
+        <h3><i class="fas fa-history"></i> آخر التحليلات</h3>
+        <div style="overflow-x: auto">
+          <table>
+            <thead>
+              <tr>
+                <th>المريض</th>
+                <th>التاريخ</th>
+                <th>التشخيص</th>
+                <th>نسبة الثقة</th>
+                <th>المصدر</th>
+                <th>الإجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="analysesTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- زر اسأل Gemini -->
+    <div style="position: fixed; bottom: 30px; left: 30px; z-index: 9998">
+      <button
+        onclick="openGeminiChat()"
+        style="
+          background: linear-gradient(135deg, #7c4dff, #4fc3f7);
+          border: none;
+          border-radius: 50%;
+          width: 60px;
+          height: 60px;
+          color: white;
+          font-size: 28px;
+          cursor: pointer;
+          box-shadow: 0 4px 20px rgba(124, 77, 255, 0.4);
+          transition: all 0.3s;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        "
+      >
+        <i class="fas fa-robot"></i>
+      </button>
+    </div>
+
+    <!-- نافذة شات Gemini -->
+    <div
+      id="geminiChatModal"
+      style="
+        display: none;
+        position: fixed;
+        bottom: 100px;
+        left: 30px;
+        width: 400px;
+        max-width: 90%;
+        height: 500px;
+        background: var(--dark-card);
+        border-radius: 20px;
+        border: 1px solid var(--border);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        z-index: 9999;
+        flex-direction: column;
+        overflow: hidden;
+      "
+    >
+      <div
+        style="
+          background: linear-gradient(135deg, #0d0d2b, #1a1a4e);
+          padding: 15px 20px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          border-bottom: 1px solid var(--border);
+        "
+      >
+        <span style="color: #4fc3f7; font-weight: bold; font-size: 16px"
+          ><i class="fas fa-robot"></i> اسأل Gemini</span
+        >
+        <button
+          onclick="closeGeminiChat()"
+          style="
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+          "
+        >
+          ✕
+        </button>
+      </div>
+      <div
+        id="geminiChatMessages"
+        style="
+          flex: 1;
+          padding: 15px;
+          overflow-y: auto;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          background: var(--darker);
+        "
+      >
+        <div
+          style="
+            background: rgba(79, 195, 247, 0.1);
+            padding: 12px 16px;
+            border-radius: 12px;
+            align-self: flex-start;
+            max-width: 85%;
+            color: var(--text);
+            border: 1px solid rgba(79, 195, 247, 0.1);
+          "
+        >
+          👋 مرحباً! أنا Gemini AI. اسألني أي شيء عن رسم المخ، الأمراض، أو أي
+          سؤال طبي.
+        </div>
+      </div>
+      <div
+        style="
+          padding: 15px;
+          border-top: 1px solid var(--border);
+          display: flex;
+          gap: 10px;
+          background: var(--dark-card);
+        "
+      >
+        <input
+          type="text"
+          id="geminiChatInput"
+          placeholder="اكتب سؤالك هنا..."
+          style="
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background: var(--darker);
+            color: var(--text);
+            font-size: 14px;
+            outline: none;
+          "
+        />
+        <button
+          onclick="sendGeminiMessage()"
+          style="
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #7c4dff, #4fc3f7);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+          "
+        >
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </div>
+    </div>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

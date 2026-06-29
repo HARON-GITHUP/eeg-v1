@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>نتيجة التحليل - BrainMed+</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  </head>
+  <body>
+    <div class="sidebar">
+      <div class="sidebar-logo">
+        <i class="fas fa-brain" style="color: #4fc3f7; font-size: 28px"></i>
+        <span>Brain<span style="color: #4fc3f7">Med</span>+</span>
+      </div>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="dashboard.html"
+            ><i class="fas fa-chart-pie"></i> <span>نظرة عامة</span></a
+          >
+        </li>
+        <li>
+          <a href="upload.html"
+            ><i class="fas fa-upload"></i> <span>تحليل جديد</span></a
+          >
+        </li>
+        <li>
+          <a href="history.html"
+            ><i class="fas fa-history"></i> <span>سجل التحليلات</span></a
+          >
+        </li>
+        <li>
+          <a href="reports.html"
+            ><i class="fas fa-file-alt"></i> <span>التقارير</span></a
+          >
+        </li>
+        <li>
+          <a href="login.html" class="logout"
+            ><i class="fas fa-sign-out-alt"></i> <span>تسجيل الخروج</span></a
+          >
+        </li>
+      </ul>
+    </div>
+
+    <div class="main-content">
+      <div class="top-bar">
+        <h1>📋 نتيجة التحليل</h1>
+      </div>
+
+      <div class="results-container" id="reportContent">
+        <div class="results-grid">
+          <div class="card patient-card">
+            <h3><i class="fas fa-user-md"></i> بيانات المريض</h3>
+            <div class="patient-info">
+              <p><strong>الاسم:</strong> <span id="resultName">-</span></p>
+              <p><strong>الجنس:</strong> <span id="resultGender">-</span></p>
+              <p><strong>العمر:</strong> <span id="resultAge">-</span> سنة</p>
+              <p><strong>التاريخ:</strong> <span id="resultDate">-</span></p>
+              <p>
+                <strong>نوع الملف:</strong> <span id="resultFileType">-</span>
+              </p>
+            </div>
+          </div>
+
+          <div class="card diagnosis-card">
+            <h3><i class="fas fa-stethoscope"></i> التشخيص</h3>
+            <div class="diagnosis-box" id="diagnosisBox">
+              <i class="fas fa-check-circle" id="diagnosisIcon"></i>
+              <h2 id="resultDisease">-</h2>
+              <p id="resultDescription">-</p>
+              <div class="diagnosis-stats">
+                <span
+                  ><strong>نسبة الثقة:</strong>
+                  <span id="resultConfidence">-</span>%</span
+                >
+                <span
+                  ><strong>درجة الخطورة:</strong>
+                  <span id="resultSeverity">-</span></span
+                >
+                <span
+                  ><strong>العلاج:</strong>
+                  <span id="resultTreatment">-</span></span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card full-width">
+          <h3><i class="fas fa-wave-square"></i> تحليل الترددات</h3>
+          <div class="frequency-result-grid">
+            <div class="freq-result-item" style="border-color: #7c4dff">
+              <span>GAMMA</span>
+              <span id="resGamma">-</span> Hz
+            </div>
+            <div class="freq-result-item" style="border-color: #448aff">
+              <span>BETA</span>
+              <span id="resBeta">-</span> Hz
+            </div>
+            <div class="freq-result-item" style="border-color: #4caf50">
+              <span>ALPHA</span>
+              <span id="resAlpha">-</span> Hz
+            </div>
+            <div class="freq-result-item" style="border-color: #ff9800">
+              <span>THETA</span>
+              <span id="resTheta">-</span> Hz
+            </div>
+            <div class="freq-result-item" style="border-color: #f44336">
+              <span>DELTA</span>
+              <span id="resDelta">-</span> Hz
+            </div>
+          </div>
+        </div>
+
+        <div class="card full-width">
+          <h3><i class="fas fa-file-medical"></i> التقرير الطبي</h3>
+          <pre id="resultFindings" class="report-text"></pre>
+          <h4>التفسير</h4>
+          <p id="resultInterpretation" class="report-text"></p>
+          <h4>الانطباع النهائي</h4>
+          <p id="resultImpression" class="report-text"></p>
+          <h4>التوصيات</h4>
+          <ul id="resultRecommendations"></ul>
+        </div>
+
+        <div class="card full-width certification">
+          <div class="certification-badge">
+            <i class="fas fa-shield-alt"></i>
+            <div>
+              <strong>تم التحليل بواسطة</strong>
+              <p id="certificationDetails">
+                🤖 Google Gemini AI + BrainMed+ v3.0
+              </p>
+              <span id="analysisSource" style="font-size: 12px; color: #4fc3f7"
+                >AI Powered</span
+              >
+            </div>
+            <span id="certificationHash">🔑 N/A</span>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button onclick="window.print()" class="btn-primary">
+            <i class="fas fa-print"></i> طباعة
+          </button>
+          <button onclick="generateImprovedPDF()" class="btn-primary pdf-btn">
+            <i class="fas fa-file-pdf"></i> PDF
+          </button>
+          <button onclick="shareResult()" class="btn-secondary">
+            <i class="fas fa-share-alt"></i> مشاركة
+          </button>
+          <a href="upload.html" class="btn-secondary"
+            ><i class="fas fa-plus"></i> تحليل جديد</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- زر اسأل Gemini -->
+    <div style="position: fixed; bottom: 30px; left: 30px; z-index: 9998">
+      <button
+        onclick="openGeminiChat()"
+        style="
+          background: linear-gradient(135deg, #7c4dff, #4fc3f7);
+          border: none;
+          border-radius: 50%;
+          width: 60px;
+          height: 60px;
+          color: white;
+          font-size: 28px;
+          cursor: pointer;
+          box-shadow: 0 4px 20px rgba(124, 77, 255, 0.4);
+          transition: all 0.3s;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        "
+      >
+        <i class="fas fa-robot"></i>
+      </button>
+    </div>
+
+    <!-- نافذة شات Gemini -->
+    <div
+      id="geminiChatModal"
+      style="
+        display: none;
+        position: fixed;
+        bottom: 100px;
+        left: 30px;
+        width: 400px;
+        max-width: 90%;
+        height: 500px;
+        background: var(--dark-card);
+        border-radius: 20px;
+        border: 1px solid var(--border);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        z-index: 9999;
+        flex-direction: column;
+        overflow: hidden;
+      "
+    >
+      <div
+        style="
+          background: linear-gradient(135deg, #0d0d2b, #1a1a4e);
+          padding: 15px 20px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          border-bottom: 1px solid var(--border);
+        "
+      >
+        <span style="color: #4fc3f7; font-weight: bold; font-size: 16px"
+          ><i class="fas fa-robot"></i> اسأل Gemini</span
+        >
+        <button
+          onclick="closeGeminiChat()"
+          style="
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+          "
+        >
+          ✕
+        </button>
+      </div>
+      <div
+        id="geminiChatMessages"
+        style="
+          flex: 1;
+          padding: 15px;
+          overflow-y: auto;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          background: var(--darker);
+        "
+      >
+        <div
+          style="
+            background: rgba(79, 195, 247, 0.1);
+            padding: 12px 16px;
+            border-radius: 12px;
+            align-self: flex-start;
+            max-width: 85%;
+            color: var(--text);
+            border: 1px solid rgba(79, 195, 247, 0.1);
+          "
+        >
+          👋 مرحباً! أنا Gemini AI. اسألني أي شيء عن رسم المخ، الأمراض، أو أي
+          سؤال طبي.
+        </div>
+      </div>
+      <div
+        style="
+          padding: 15px;
+          border-top: 1px solid var(--border);
+          display: flex;
+          gap: 10px;
+          background: var(--dark-card);
+        "
+      >
+        <input
+          type="text"
+          id="geminiChatInput"
+          placeholder="اكتب سؤالك هنا..."
+          style="
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background: var(--darker);
+            color: var(--text);
+            font-size: 14px;
+            outline: none;
+          "
+        />
+        <button
+          onclick="sendGeminiMessage()"
+          style="
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #7c4dff, #4fc3f7);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+          "
+        >
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </div>
+    </div>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

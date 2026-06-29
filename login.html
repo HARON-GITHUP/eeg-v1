@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>تسجيل الدخول - BrainMed+</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="auth-container">
+      <div class="auth-card">
+        <div class="auth-header">
+          <i class="fas fa-brain" style="color: #4fc3f7; font-size: 48px"></i>
+          <h2>Brain<span style="color: #4fc3f7">Med</span>+</h2>
+          <p>تسجيل الدخول إلى النظام</p>
+        </div>
+        <form id="loginForm">
+          <div class="form-group">
+            <label>البريد الإلكتروني</label>
+            <input
+              type="email"
+              id="username"
+              placeholder="doctor@hospital.com"
+              required
+            />
+          </div>
+          <div class="form-group password-group">
+            <label>كلمة المرور</label>
+            <div class="password-input-wrapper">
+              <input
+                type="password"
+                id="password"
+                placeholder="••••••••"
+                required
+              />
+              <span class="toggle-password" onclick="togglePassword()">
+                <i class="fas fa-eye" id="toggleIcon"></i>
+              </span>
+            </div>
+          </div>
+          <button type="submit" class="btn-primary">دخول</button>
+        </form>
+        <p class="auth-footer">
+          ليس لديك حساب؟ <a href="register.html">إنشاء حساب جديد</a>
+        </p>
+      </div>
+    </div>
+
+    <!-- زر اسأل Gemini -->
+    <div style="position: fixed; bottom: 30px; left: 30px; z-index: 9998">
+      <button
+        onclick="openGeminiChat()"
+        style="
+          background: linear-gradient(135deg, #7c4dff, #4fc3f7);
+          border: none;
+          border-radius: 50%;
+          width: 60px;
+          height: 60px;
+          color: white;
+          font-size: 28px;
+          cursor: pointer;
+          box-shadow: 0 4px 20px rgba(124, 77, 255, 0.4);
+          transition: all 0.3s;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        "
+      >
+        <i class="fas fa-robot"></i>
+      </button>
+    </div>
+
+    <!-- نافذة شات Gemini -->
+    <div
+      id="geminiChatModal"
+      style="
+        display: none;
+        position: fixed;
+        bottom: 100px;
+        left: 30px;
+        width: 400px;
+        max-width: 90%;
+        height: 500px;
+        background: var(--dark-card);
+        border-radius: 20px;
+        border: 1px solid var(--border);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        z-index: 9999;
+        flex-direction: column;
+        overflow: hidden;
+      "
+    >
+      <div
+        style="
+          background: linear-gradient(135deg, #0d0d2b, #1a1a4e);
+          padding: 15px 20px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          border-bottom: 1px solid var(--border);
+        "
+      >
+        <span style="color: #4fc3f7; font-weight: bold; font-size: 16px"
+          ><i class="fas fa-robot"></i> اسأل Gemini</span
+        >
+        <button
+          onclick="closeGeminiChat()"
+          style="
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+          "
+        >
+          ✕
+        </button>
+      </div>
+      <div
+        id="geminiChatMessages"
+        style="
+          flex: 1;
+          padding: 15px;
+          overflow-y: auto;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          background: var(--darker);
+        "
+      >
+        <div
+          style="
+            background: rgba(79, 195, 247, 0.1);
+            padding: 12px 16px;
+            border-radius: 12px;
+            align-self: flex-start;
+            max-width: 85%;
+            color: var(--text);
+            border: 1px solid rgba(79, 195, 247, 0.1);
+          "
+        >
+          👋 مرحباً! أنا Gemini AI. اسألني أي شيء عن رسم المخ، الأمراض، أو أي
+          سؤال طبي.
+        </div>
+      </div>
+      <div
+        style="
+          padding: 15px;
+          border-top: 1px solid var(--border);
+          display: flex;
+          gap: 10px;
+          background: var(--dark-card);
+        "
+      >
+        <input
+          type="text"
+          id="geminiChatInput"
+          placeholder="اكتب سؤالك هنا..."
+          style="
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background: var(--darker);
+            color: var(--text);
+            font-size: 14px;
+            outline: none;
+          "
+        />
+        <button
+          onclick="sendGeminiMessage()"
+          style="
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #7c4dff, #4fc3f7);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+          "
+        >
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </div>
+    </div>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>التقارير - BrainMed+</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="sidebar">
+      <div class="sidebar-logo">
+        <i class="fas fa-brain" style="color: #4fc3f7; font-size: 28px"></i>
+        <span>Brain<span style="color: #4fc3f7">Med</span>+</span>
+      </div>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="dashboard.html"
+            ><i class="fas fa-chart-pie"></i> <span>نظرة عامة</span></a
+          >
+        </li>
+        <li>
+          <a href="upload.html"
+            ><i class="fas fa-upload"></i> <span>تحليل جديد</span></a
+          >
+        </li>
+        <li>
+          <a href="history.html"
+            ><i class="fas fa-history"></i> <span>سجل التحليلات</span></a
+          >
+        </li>
+        <li>
+          <a href="reports.html" class="active"
+            ><i class="fas fa-file-alt"></i> <span>التقارير</span></a
+          >
+        </li>
+        <li>
+          <a href="login.html" class="logout"
+            ><i class="fas fa-sign-out-alt"></i> <span>تسجيل الخروج</span></a
+          >
+        </li>
+      </ul>
+    </div>
+
+    <div class="main-content">
+      <div class="top-bar">
+        <h1>📄 التقارير</h1>
+      </div>
+
+      <div class="card full-width" style="margin-top: 20px">
+        <h3><i class="fas fa-file-pdf"></i> إنشاء تقرير جديد</h3>
+        <p style="color: #666; margin-bottom: 15px">
+          اختر تحليلاً سابقاً لإنشاء تقرير PDF مفصل عنه.
+        </p>
+        <div
+          style="display: flex; gap: 15px; flex-wrap: wrap; align-items: center"
+        >
+          <select
+            id="reportSelect"
+            style="
+              flex: 1;
+              min-width: 200px;
+              padding: 12px;
+              border: 2px solid #e0e0e0;
+              border-radius: 8px;
+              font-size: 16px;
+            "
+          >
+            <option value="">-- اختر تحليلاً --</option>
+          </select>
+          <button onclick="generateReport()" class="btn-primary pdf-btn">
+            <i class="fas fa-file-pdf"></i> توليد PDF
+          </button>
+        </div>
+      </div>
+
+      <div class="card full-width" style="margin-top: 20px">
+        <h3><i class="fas fa-chart-bar"></i> إحصائيات التقارير</h3>
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+          "
+        >
+          <div
+            style="
+              text-align: center;
+              padding: 15px;
+              background: #e8f5e9;
+              border-radius: 10px;
+            "
+          >
+            <p
+              style="font-size: 28px; font-weight: bold; color: #2e7d32"
+              id="reportTotal"
+            >
+              0
+            </p>
+            <p style="font-size: 12px; color: #666">إجمالي التحليلات</p>
+          </div>
+          <div
+            style="
+              text-align: center;
+              padding: 15px;
+              background: #e3f2fd;
+              border-radius: 10px;
+            "
+          >
+            <p
+              style="font-size: 28px; font-weight: bold; color: #0d47a1"
+              id="reportNormal"
+            >
+              0
+            </p>
+            <p style="font-size: 12px; color: #666">نتائج طبيعية</p>
+          </div>
+          <div
+            style="
+              text-align: center;
+              padding: 15px;
+              background: #ffebee;
+              border-radius: 10px;
+            "
+          >
+            <p
+              style="font-size: 28px; font-weight: bold; color: #c62828"
+              id="reportAbnormal"
+            >
+              0
+            </p>
+            <p style="font-size: 12px; color: #666">نتائج غير طبيعية</p>
+          </div>
+          <div
+            style="
+              text-align: center;
+              padding: 15px;
+              background: #f3e5f5;
+              border-radius: 10px;
+            "
+          >
+            <p
+              style="font-size: 28px; font-weight: bold; color: #4a148c"
+              id="reportAvgConfidence"
+            >
+              -
+            </p>
+            <p style="font-size: 12px; color: #666">متوسط الثقة</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- زر اسأل Gemini -->
+    <div style="position: fixed; bottom: 30px; left: 30px; z-index: 9998">
+      <button
+        onclick="openGeminiChat()"
+        style="
+          background: linear-gradient(135deg, #7c4dff, #4fc3f7);
+          border: none;
+          border-radius: 50%;
+          width: 60px;
+          height: 60px;
+          color: white;
+          font-size: 28px;
+          cursor: pointer;
+          box-shadow: 0 4px 20px rgba(124, 77, 255, 0.4);
+          transition: all 0.3s;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        "
+      >
+        <i class="fas fa-robot"></i>
+      </button>
+    </div>
+
+    <!-- نافذة شات Gemini -->
+    <div
+      id="geminiChatModal"
+      style="
+        display: none;
+        position: fixed;
+        bottom: 100px;
+        left: 30px;
+        width: 400px;
+        max-width: 90%;
+        height: 500px;
+        background: var(--dark-card);
+        border-radius: 20px;
+        border: 1px solid var(--border);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        z-index: 9999;
+        flex-direction: column;
+        overflow: hidden;
+      "
+    >
+      <div
+        style="
+          background: linear-gradient(135deg, #0d0d2b, #1a1a4e);
+          padding: 15px 20px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          border-bottom: 1px solid var(--border);
+        "
+      >
+        <span style="color: #4fc3f7; font-weight: bold; font-size: 16px"
+          ><i class="fas fa-robot"></i> اسأل Gemini</span
+        >
+        <button
+          onclick="closeGeminiChat()"
+          style="
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+          "
+        >
+          ✕
+        </button>
+      </div>
+      <div
+        id="geminiChatMessages"
+        style="
+          flex: 1;
+          padding: 15px;
+          overflow-y: auto;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          background: var(--darker);
+        "
+      >
+        <div
+          style="
+            background: rgba(79, 195, 247, 0.1);
+            padding: 12px 16px;
+            border-radius: 12px;
+            align-self: flex-start;
+            max-width: 85%;
+            color: var(--text);
+            border: 1px solid rgba(79, 195, 247, 0.1);
+          "
+        >
+          👋 مرحباً! أنا Gemini AI. اسألني أي شيء عن رسم المخ، الأمراض، أو أي
+          سؤال طبي.
+        </div>
+      </div>
+      <div
+        style="
+          padding: 15px;
+          border-top: 1px solid var(--border);
+          display: flex;
+          gap: 10px;
+          background: var(--dark-card);
+        "
+      >
+        <input
+          type="text"
+          id="geminiChatInput"
+          placeholder="اكتب سؤالك هنا..."
+          style="
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background: var(--darker);
+            color: var(--text);
+            font-size: 14px;
+            outline: none;
+          "
+        />
+        <button
+          onclick="sendGeminiMessage()"
+          style="
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #7c4dff, #4fc3f7);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+          "
+        >
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </div>
+    </div>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>
